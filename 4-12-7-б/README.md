@@ -24,31 +24,21 @@ $$
 
 - **Критическая точка:**
   
-  $$
-  f'(x) = 0 \Rightarrow e^{-x^2}(1 - 2x^2) = 0 \Rightarrow 1 - 2x^2 = 0
-  $$
+  $f'(x) = 0 \Rightarrow e^{-x^2}(1 - 2x^2) = 0 \Rightarrow 1 - 2x^2 = 0$
   
-  $$
-  x^2 = \frac{1}{2} \Rightarrow x_{max} = \frac{1}{\sqrt{2}} \quad (\text{т.к. } x \geq 0)
-  $$
+  $x^2 = \frac{1}{2} \Rightarrow x_{max} = \frac{1}{\sqrt{2}} \quad (\text{т.к. } x \geq 0)$
 
 - **Максимальное значение:**
   
-  $$
-  f_{max} = f(x_{max}) = \frac{1}{\sqrt{2}} \cdot e^{-1/2} = \frac{1}{\sqrt{2e}}
-  $$
+  $f_{max} = f(x_{max}) = \frac{1}{\sqrt{2}} \cdot e^{-1/2} = \frac{1}{\sqrt{2e}}$
 
 - **Значение на полувысоте:**
   
-  $$
-  f_{target} = \frac{f_{max}}{2} = \frac{1}{2\sqrt{2e}}
-  $$
+  $f_{target} = \frac{f_{max}}{2} = \frac{1}{2\sqrt{2e}}$
 
 Требуется решить уравнение:
 
-$$
-x e^{-x^2} = \frac{1}{2\sqrt{2e}}
-$$
+$x e^{-x^2} = \frac{1}{2\sqrt{2e}}$
 
 ### Метод простой итерации
 
