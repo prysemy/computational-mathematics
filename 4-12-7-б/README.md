@@ -19,14 +19,15 @@ $$
 Для функции $f(x) = x e^{-x^2}$:
 
 - **Производная:**
-  $
+  $$
   f'(x) = \frac{d}{dx}[x e^{-x^2}] = e^{-x^2} + x \cdot (-2x)e^{-x^2} = e^{-x^2}(1 - 2x^2)
-  $
+  $$
 
 - **Критическая точка:**
   $$
   f'(x) = 0 \Rightarrow e^{-x^2}(1 - 2x^2) = 0 \Rightarrow 1 - 2x^2 = 0
   $$
+  
   $$
   x^2 = \frac{1}{2} \Rightarrow x_{max} = \frac{1}{\sqrt{2}} \quad (\text{т.к. } x \geq 0)
   $$
