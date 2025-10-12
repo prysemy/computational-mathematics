@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "POoLN/rnV3A=",
+  "dgSpecHash": "zB97fT0tbgY=",
   "success": true,
-  "projectFilePath": "/home/emily/CLionProjects/plotter/SimpleGraph.csproj",
+  "projectFilePath": "/home/emily/Repos/computational-mathematics/1-8-19/plotter/SimpleGraph.csproj",
   "expectedPackageFiles": [
     "/home/emily/.nuget/packages/harfbuzzsharp/7.3.0.3/harfbuzzsharp.7.3.0.3.nupkg.sha512",
     "/home/emily/.nuget/packages/harfbuzzsharp.nativeassets.linux/7.3.0.3/harfbuzzsharp.nativeassets.linux.7.3.0.3.nupkg.sha512",

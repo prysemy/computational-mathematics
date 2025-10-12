@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/emily/CLionProjects/plotter/SimpleGraph.csproj": {}
+    "/home/emily/Repos/computational-mathematics/1-8-19/plotter/SimpleGraph.csproj": {}
   },
   "projects": {
-    "/home/emily/CLionProjects/plotter/SimpleGraph.csproj": {
+    "/home/emily/Repos/computational-mathematics/1-8-19/plotter/SimpleGraph.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/emily/CLionProjects/plotter/SimpleGraph.csproj",
+        "projectUniqueName": "/home/emily/Repos/computational-mathematics/1-8-19/plotter/SimpleGraph.csproj",
         "projectName": "SimpleGraph",
-        "projectPath": "/home/emily/CLionProjects/plotter/SimpleGraph.csproj",
+        "projectPath": "/home/emily/Repos/computational-mathematics/1-8-19/plotter/SimpleGraph.csproj",
         "packagesPath": "/home/emily/.nuget/packages/",
-        "outputPath": "/home/emily/CLionProjects/plotter/obj/",
+        "outputPath": "/home/emily/Repos/computational-mathematics/1-8-19/plotter/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/emily/.nuget/NuGet/NuGet.Config"

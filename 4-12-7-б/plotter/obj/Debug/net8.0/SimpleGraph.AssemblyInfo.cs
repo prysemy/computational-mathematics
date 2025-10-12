@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SimpleGraph")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0b53304021d69aa0aa669280770062c92cf3e358")]
 [assembly: System.Reflection.AssemblyProductAttribute("SimpleGraph")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SimpleGraph")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
