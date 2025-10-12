@@ -30,6 +30,7 @@ $$
 
 
 $$
+\begin{equation}
 J(x, y) = \begin{bmatrix}
 \frac{\partial f_1}{\partial x} & \frac{\partial f_1}{\partial y} \\
 \frac{\partial f_2}{\partial x} & \frac{\partial f_2}{\partial y}
@@ -37,6 +38,7 @@ J(x, y) = \begin{bmatrix}
 = \begin{bmatrix}
 2x & 2y \\ -\frac{1}{\cos^2 x} & 1
 \end{bmatrix}
+\end{equation}
 $$
 
 ### Итерационная формула метода Ньютона
