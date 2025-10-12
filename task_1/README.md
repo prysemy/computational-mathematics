@@ -79,20 +79,10 @@ $$
 3. Вычисляем поправку:
 
   $\Delta = J^{-1} · F = (1/det J) · [[1, -2y_n], [1/cos^2{x_n}, 2xₙ]] · [[x_n^2 + y_n^2 - 1], [y_n - /tan{x_n}]]$
+  
 4. Обновляем решение:
 
-   
-   $$
-   \begin{bmatrix}
-   x_{n+1} \\
-   y_{n+1}
-   \end{bmatrix}
-   = \begin{bmatrix}
-   x_n \\
-   y_n
-   \end{bmatrix}
-   - \Delta
-   $$
+   $[x_{n+1}; y_{n+1}] = [x_n; y_n] - [\Delta x; \Delta y]$
 
 ### Итерации продолжаются до выполнения условия:
 
