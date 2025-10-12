@@ -44,20 +44,7 @@ $$
 ### Итерационная формула метода Ньютона
 
 
-$$
-\begin{bmatrix}
-x_{n+1} \\
-y_{n+1}
-\end{bmatrix}
-= \begin{bmatrix}
-x_n \\
-y_n
-\end{bmatrix}
-- J^{-1}(x_n, y_n) \cdot \begin{bmatrix}
-f_1(x_n, y_n) \\
-f_2(x_n, y_n)
-\end{bmatrix}
-$$
+$[x_{n+1}; y_{n+1}] = [x_n; y_n] - J^{-1}(x_n, y_n) · [f_1(x_n, y_n); f_2(x_n, y_n)]$
 
 ### Обратная матрица Якоби
 
