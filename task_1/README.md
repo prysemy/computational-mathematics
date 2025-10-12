@@ -95,16 +95,7 @@ $$
 
 3. Вычисляем поправку:
 
-   
-   $$
-   \Delta = J^{-1} \cdot F = \frac{1}{\det J} \begin{bmatrix}
-   1 & -2y_n \\
-   \frac{1}{\cos^2 x_n} & 2x_n
-   \end{bmatrix} \cdot \begin{bmatrix}
-   x_n^2 + y_n^2 - 1 \\
-   y_n - \tg x_n
-   \end{bmatrix}
-   $$
+   $\Delta = J^{-1} \cdot F = \frac{1}{\det J} \begin{bmatrix} 1 & -2y_n \\ \frac{1}{\cos^2 x_n} & 2x_n \end{bmatrix} \cdot \begin{bmatrix} x_n^2 + y_n^2 - 1 \\ y_n - \tg x_n \end{bmatrix}$
 
 4. Обновляем решение:
 
