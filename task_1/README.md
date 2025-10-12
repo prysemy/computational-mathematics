@@ -48,6 +48,24 @@ $$
 [x_{n+1}; y_{n+1}] = [x_n; y_n] - J^{-1}(x_n, y_n) · [f_1(x_n, y_n); f_2(x_n, y_n)]
 $$
 
+
+$$
+\left[\begin{array}{c}
+x_{n+1} \\
+y_{n+1}
+\end{array}\right]
+=
+\left[\begin{array}{c}
+x_n \\
+y_n
+\end{array}\right]
+- J^{-1}(x_n, y_n) \cdot
+\left[\begin{array}{c}
+f_1(x_n, y_n) \\
+f_2(x_n, y_n)
+\end{array}\right]
+$$
+
 ### Обратная матрица Якоби
 
 
