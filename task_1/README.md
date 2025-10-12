@@ -5,7 +5,7 @@
 $$
 \begin{cases} 
 x^2 + y^2 = 1, \\ 
-y = \tg x.
+y = \tan{x}.
 \end{cases}
 $$
 
@@ -22,22 +22,20 @@ $$
 $$
 \begin{cases}
 f_1(x, y) = x^2 + y^2 - 1 = 0 \\
-f_2(x, y) = y - \tg x = 0
+f_2(x, y) = y - \tan{x} = 0
 \end{cases}
 $$
 
 ### Матрица Якоби
 
-$$
-J(x, y) = \begin{bmatrix}
+$J(x, y) = \begin{bmatrix}
 \frac{\partial f_1}{\partial x} & \frac{\partial f_1}{\partial y} \\
 \frac{\partial f_2}{\partial x} & \frac{\partial f_2}{\partial y}
 \end{bmatrix}
 = \begin{bmatrix}
 2x & 2y \\
 -\frac{1}{\cos^2 x} & 1
-\end{bmatrix}
-$$
+\end{bmatrix}$
 
 ### Итерационная формула метода Ньютона
 
@@ -76,12 +74,7 @@ $$
 На каждой итерации:
 
 1. Вычисляем вектор функции:
-   $$
-   F(x_n, y_n) = \begin{bmatrix}
-   x_n^2 + y_n^2 - 1 \\
-   y_n - \tg x_n
-   \end{bmatrix}
-   $$
+   $F(x_n, y_n) = \begin{bmatrix} x_n^2 + y_n^2 - 1 \\ y_n - \tg x_n \end{bmatrix}$
 
 2. Вычисляем матрицу Якоби и её определитель:
    $$
