@@ -36,7 +36,8 @@ J(x, y) = \begin{bmatrix}
 \frac{\partial f_2}{\partial x} & \frac{\partial f_2}{\partial y}
 \end{bmatrix}
 = \begin{bmatrix}
-2x & 2y \\ -\frac{1}{\cos^2 x} & 1
+2x & 2y \\
+ -\frac{1}{\cos^2 x} & 1
 \end{bmatrix}
 \end{equation}
 $$
