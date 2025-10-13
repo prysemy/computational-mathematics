@@ -35,21 +35,12 @@ $\int_a^b f(x) dx \approx \frac{b-a}{2} \sum_{i=1}^n w_i f\left(\frac{a+b}{2} + 
 
 #### Гаусс 2 узла
 
-$\int_a^b f(x) dx \approx \frac{b-a}{2} \left[ f\left(\frac{a+b}{2} - \frac{b-a}{2\sqrt{3}}\right) + f\left(\frac{a+b}{2} + \frac{b-a}{2\sqrt{3}}\right) \right]$
+Узлы: $\xi_{1,2} = \pm \frac{1}{\sqrt{3}}$, Веса: $w_{1,2} = 1$
 
 #### Гаусс 3 узла
 
-$\int_a^b f(x) dx \approx \frac{b-a}{2} \left[ \frac{5}{9}f\left(\frac{a+b}{2} - \frac{b-a}{2}\sqrt{\frac{3}{5}}\right) + \frac{8}{9}f\left(\frac{a+b}{2}\right) + \frac{5}{9}f\left(\frac{a+b}{2} + \frac{b-a}{2}\sqrt{\frac{3}{5}}\right) \right]$
+Узлы: $\xi_{1,3} = \pm \sqrt{\frac{3}{5}}, \xi_2 = 0$, Веса: $w_{1,3} = \frac{5}{9}, w_2 = \frac{8}{9}$
 
 #### Гаусс 4 узла
 
-$\int_a^b f(x) dx \approx \frac{b-a}{2} \sum_{i=1}^4 w_i f\left(\frac{a+b}{2} + \frac{b-a}{2} \xi_i\right)$
-
-где:
-- $\xi_{1,4} = \pm \sqrt{\frac{3}{7} + \frac{2}{7}\sqrt{\frac{6}{5}}}$
-  
-- $\xi_{2,3} = \pm \sqrt{\frac{3}{7} - \frac{2}{7}\sqrt{\frac{6}{5}}}
-
-- $w_{1,4} = \frac{18-\sqrt{30}}{36}$
-  
-- $w_{2,3} = \frac{18+\sqrt{30}}{36}$
+Узлы: $\xi_{1,4} = \pm 0.861136, \xi_{2,3} = \pm 0.339981$, Веса: $w_{1,4} = 0.347855, w_{2,3} = 0.652145$
