@@ -4,7 +4,17 @@
 #include <fstream>
 #include <iomanip>
 
-// Вычисление частичной суммы ряда Маклорена
+/**
+ * @brief Функция вычисления частичной суммы ряда Маклорена для sin(t) и exp(t).
+ *
+ * @param function_type тип функции: "sin" или "exp".
+ * @param t аргумент функции.
+ * @param n_terms количество слагаемых в ряде.
+ * 
+ * Для sin(t): использует ряд t - t^3/3! + t^5/5! - ...
+ * Для exp(t): использует ряд 1 + t + t^2/2! + t^3/3! + ...
+ * Возвращает приближенное значение функции.
+*/
 double maclaurin_sum(const std::string &function_type, double const t, int const n_terms) {
     double sum = 0;
     if (function_type == "sin") {
@@ -28,9 +38,15 @@ double maclaurin_sum(const std::string &function_type, double const t, int const
     return sum;
 }
 
-// Более совершенный алгоритм для больших t
-// используем sin(t) = sin(t + 2πk)
-// в итоге представим t = 2πk + tau, где tau ∈ [-pi, pi]
+/**
+ * @brief Функция улучшенного алгоритма вычисления sin(t) для больших аргументов.
+ *
+ * @param t аргумент функции.
+ * 
+ * Использует периодичность sin(t): sin(t) = sin(t + 2pi k).
+ * Приводит аргумент к диапазону [-pi pi] для улучшения сходимости ряда.
+ * Возвращает значение sin(t) с высокой точностью.
+*/
 double improved_sin(double const t) {
     double reduced_t = fmod(t, 2 * M_PI);
     if (reduced_t > M_PI) {
@@ -41,8 +57,15 @@ double improved_sin(double const t) {
     return maclaurin_sum("sin", reduced_t, 15);
 }
 
-// exp(2x) = exp(x + x) = exp(x) ⋅ exp(x) = exp(x) ^ 2
-// exp(t) = exp(t / 2) ^ 2
+/**
+ * @brief Функция улучшенного алгоритма вычисления exp(t) для больших аргументов.
+ *
+ * @param t аргумент функции.
+ * 
+ * Использует свойство: exp(t) = exp(t/2)^2.
+ * Рекурсивно уменьшает аргумент до значения <= 1.0.
+ * Возвращает значение exp(t) с высокой точностью.
+*/
 double improved_exp(double t) {
     int k = 0;
     double reduced_t = t;
@@ -57,7 +80,17 @@ double improved_exp(double t) {
     return result;
 }
 
-// Подбор оптимального n для малых t
+/**
+ * @brief Функция подбора оптимального числа слагаемых для малых аргументов.
+ *
+ * @param function_type тип функции: "sin" или "exp".
+ * @param t аргумент функции (малое значение).
+ * @param target_error целевая погрешность.
+ * 
+ * Для sin(t): перебирает нечетные n (3, 5, 7, ...).
+ * Для exp(t): перебирает все n (1, 2, 3, ...).
+ * Возвращает минимальное n, обеспечивающее требуемую точность.
+*/
 int find_optimal_n_small(const std::string &function_type, double const t, double const target_error) {
     double exact_value;
     if (function_type == "sin") {
@@ -81,7 +114,16 @@ int find_optimal_n_small(const std::string &function_type, double const t, doubl
     return n;
 }
 
-// Подбора оптимального n для больших t
+/**
+ * @brief Функция подбора оптимального числа слагаемых для больших аргументов.
+ *
+ * @param function_type тип функции: "sin" или "exp".
+ * @param t аргумент функции (большое значение).
+ * @param target_error целевая погрешность.
+ * 
+ * Использует прямое суммирование ряда без улучшающих преобразований.
+ * Возвращает оптимальное n для достижения заданной точности.
+*/
 int find_optimal_n_big(const std::string &function_type, double const t, double const target_error) {
     double exact_value;
     if (function_type == "sin") {
@@ -104,6 +146,17 @@ int find_optimal_n_big(const std::string &function_type, double const t, double 
     return n;
 }
 
+/**
+ * @brief Функция анализа точности рядов Маклорена и сохранения результатов.
+ * 
+ * Сравнивает три метода вычисления:
+ * 1. Точное значение
+ * 2. Ряд Маклорена с оптимальным n
+ * 3. Улучшенные алгоритмы с приведением аргумента
+ * 
+ * Сохраняет результаты для интервалов [0,1] и [10,11] в файл.
+ * Выводит статистику точности в консоль.
+ */
 void analyze_and_save_results() {
     std::ofstream file("data/results.txt");
     file << std::fixed << std::setprecision(10);
