@@ -3,8 +3,22 @@
 #include <iomanip>
 #include <fstream>
 
+/**
+ * @brief Требуемая точность вычислений.
+ * 
+ * Используется как критерий остановки в итерационных методах.
+ * Итерации прекращаются при |x_new - x| < EPS.
+*/
 constexpr double EPS = 1e-3;
 
+/**
+ * @brief Исходная функция f(x) = x * exp(-x^2).
+ *
+ * @param x аргумент функции.
+ * 
+ * Возвращает значение функции в точке x.
+ * Функция имеет максимум при x = 1/sqrt(2).
+*/
 double f(const double x) {
     return x * exp(-x * x);
 }
@@ -22,6 +36,17 @@ double f(const double x) {
 //     return x;
 // }
 
+/**
+ * @brief Функция метода простой итерации для левой ветви функции.
+ *
+ * @param t целевое значение функции (полувысота).
+ * @param x0 начальное приближение.
+ * @param iterations счетчик итераций (выходной параметр).
+ * 
+ * Решает уравнение x * exp(-x^2) = t для x < x_max.
+ * Использует итерационную формулу: x = t * exp(x^2).
+ * Возвращает найденный корень и количество итераций.
+*/
 double simple_iteration_left(double t, double x0, int &iterarions) {
     // x < t
     double x = x0;
@@ -35,6 +60,17 @@ double simple_iteration_left(double t, double x0, int &iterarions) {
     return x;
 }
 
+/**
+ * @brief Функция метода простой итерации для правой ветви функции.
+ *
+ * @param t целевое значение функции (полувысота).
+ * @param x0 начальное приближение.
+ * @param iterations счетчик итераций (выходной параметр).
+ * 
+ * Решает уравнение x * exp(-x^2) = t для x > x_max.
+ * Использует итерационную формулу: x = √sqrtln(x/t)).
+ * Возвращает найденный корень и количество итераций.
+*/
 double simple_iteration_right(double t, double x0, int &iterations) {
     // x > t
     double x = x0;
@@ -48,6 +84,21 @@ double simple_iteration_right(double t, double x0, int &iterations) {
     return x;
 }
 
+/**
+ * @brief Сохранение результатов вычислений в файл.
+ *
+ * @param x_left левая точка полувысоты.
+ * @param x_right правая точка полувысоты.
+ * @param x_max точка максимума функции.
+ * @param f_max значение максимума функции.
+ * @param target значение полувысоты.
+ * @param fwhm ширина на полувысоте.
+ * @param iter1 количество итераций для левой точки.
+ * @param iter2 количество итераций для правой точки.
+ * 
+ * Создает файл с подробными результатами вычислений
+ * и данными для построения графика функции.
+*/
 void save(double x_left, double x_right, double x_max, double f_max, double target, double fwhm, int iter1, int iter2) {
     std::ofstream file("data/fwhm_results.txt");
     file << std::fixed << std::setprecision(6);
