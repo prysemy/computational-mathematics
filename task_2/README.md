@@ -30,35 +30,26 @@ $\int_a^b f(x) dx \approx \sum_{i=1}^N \frac{f(x_{i-1}) + 3f\left(\frac{2x_{i-1}
 ### 2. Формулы Гаусса
 
 #### Общая формула Гаусса
-\[ \int_a^b f(x) dx \approx \frac{b-a}{2} \sum_{i=1}^n w_i f\left(\frac{a+b}{2} + \frac{b-a}{2} \xi_i\right) \]
+
+$\int_a^b f(x) dx \approx \frac{b-a}{2} \sum_{i=1}^n w_i f\left(\frac{a+b}{2} + \frac{b-a}{2} \xi_i\right)$
 
 #### Гаусс 2 узла
-\[ \int_a^b f(x) dx \approx \frac{b-a}{2} \left[ f\left(\frac{a+b}{2} - \frac{b-a}{2\sqrt{3}}\right) + f\left(\frac{a+b}{2} + \frac{b-a}{2\sqrt{3}}\right) \right] \]
+
+$\int_a^b f(x) dx \approx \frac{b-a}{2} \left[ f\left(\frac{a+b}{2} - \frac{b-a}{2\sqrt{3}}\right) + f\left(\frac{a+b}{2} + \frac{b-a}{2\sqrt{3}}\right) \right]$
 
 #### Гаусс 3 узла
-\[ \int_a^b f(x) dx \approx \frac{b-a}{2} \left[ \frac{5}{9}f\left(\frac{a+b}{2} - \frac{b-a}{2}\sqrt{\frac{3}{5}}\right) + \frac{8}{9}f\left(\frac{a+b}{2}\right) + \frac{5}{9}f\left(\frac{a+b}{2} + \frac{b-a}{2}\sqrt{\frac{3}{5}}\right) \right] \]
+
+$\int_a^b f(x) dx \approx \frac{b-a}{2} \left[ \frac{5}{9}f\left(\frac{a+b}{2} - \frac{b-a}{2}\sqrt{\frac{3}{5}}\right) + \frac{8}{9}f\left(\frac{a+b}{2}\right) + \frac{5}{9}f\left(\frac{a+b}{2} + \frac{b-a}{2}\sqrt{\frac{3}{5}}\right) \right]$
 
 #### Гаусс 4 узла
-\[ \int_a^b f(x) dx \approx \frac{b-a}{2} \sum_{i=1}^4 w_i f\left(\frac{a+b}{2} + \frac{b-a}{2} \xi_i\right) \]
+
+$\int_a^b f(x) dx \approx \frac{b-a}{2} \sum_{i=1}^4 w_i f\left(\frac{a+b}{2} + \frac{b-a}{2} \xi_i\right)$
+
 где:
-- \(\xi_{1,4} = \pm \sqrt{\frac{3}{7} + \frac{2}{7}\sqrt{\frac{6}{5}}}\)
-- \(\xi_{2,3} = \pm \sqrt{\frac{3}{7} - \frac{2}{7}\sqrt{\frac{6}{5}}}\)
-- \(w_{1,4} = \frac{18-\sqrt{30}}{36}\)
-- \(w_{2,3} = \frac{18+\sqrt{30}}{36}\)
+- $\xi_{1,4} = \pm \sqrt{\frac{3}{7} + \frac{2}{7}\sqrt{\frac{6}{5}}}$
+  
+- $\xi_{2,3} = \pm \sqrt{\frac{3}{7} - \frac{2}{7}\sqrt{\frac{6}{5}}}
 
-### 3. Адаптивный метод
-
-#### Адаптивный Симпсон
-Рекурсивное применение:
-\[ I \approx I_{\text{left}} + I_{\text{right}} \]
-с контролем погрешности \(|S_1 - S_2| < 15\cdot\text{tol}\)
-
-## Запуск
-
-```bash
-# Компиляция C++ программы
-g++ -o integrator main.cpp -lm
-./integrator
-
-# Визуализация результатов
-dotnet run
+- $w_{1,4} = \frac{18-\sqrt{30}}{36}$
+  
+- $w_{2,3} = \frac{18+\sqrt{30}}{36}$
