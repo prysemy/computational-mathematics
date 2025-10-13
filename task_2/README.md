@@ -12,16 +12,20 @@ $I = \int_{0}^{3} \sin(100x) \cdot e^{-x^2} \cdot \cos(2x)  dx$
 ### 1. Составные формулы
 
 #### Метод средних прямоугольников
-\[ \int_a^b f(x) dx \approx \sum_{i=1}^N f\left(\frac{x_{i-1} + x_i}{2}\right) \Delta x_i \]
+
+$\int_a^b f(x) dx \approx \sum_{i=1}^N f\left(\frac{x_{i-1} + x_i}{2}\right) \Delta x_i$
 
 #### Метод трапеций
-\[ \int_a^b f(x) dx \approx \sum_{i=1}^N \frac{f(x_{i-1}) + f(x_i)}{2} \Delta x_i \]
+
+$\int_a^b f(x) dx \approx \sum_{i=1}^N \frac{f(x_{i-1}) + f(x_i)}{2} \Delta x_i$
 
 #### Метод Симпсона
-\[ \int_a^b f(x) dx \approx \sum_{i=1}^N \frac{f(x_{i-1}) + 4f\left(\frac{x_{i-1}+x_i}{2}\right) + f(x_i)}{6} \Delta x_i \]
+
+$\int_a^b f(x) dx \approx \sum_{i=1}^N \frac{f(x_{i-1}) + 4f\left(\frac{x_{i-1}+x_i}{2}\right) + f(x_i)}{6} \Delta x_i$
 
 #### Правило 3/8
-\[ \int_a^b f(x) dx \approx \sum_{i=1}^N \frac{f(x_{i-1}) + 3f\left(\frac{2x_{i-1}+x_i}{3}\right) + 3f\left(\frac{x_{i-1}+2x_i}{3}\right) + f(x_i)}{8} \Delta x_i \]
+
+$\int_a^b f(x) dx \approx \sum_{i=1}^N \frac{f(x_{i-1}) + 3f\left(\frac{2x_{i-1}+x_i}{3}\right) + 3f\left(\frac{x_{i-1}+2x_i}{3}\right) + f(x_i)}{8} \Delta x_i$
 
 ### 2. Формулы Гаусса
 
