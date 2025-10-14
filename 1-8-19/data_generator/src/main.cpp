@@ -81,17 +81,17 @@ double improved_exp(double t) {
 }
 
 /**
- * @brief Функция подбора оптимального числа слагаемых для малых аргументов.
+ * @brief Функция подбора оптимального числа слагаемых.
  *
  * @param function_type тип функции: "sin" или "exp".
- * @param t аргумент функции (малое значение).
+ * @param t аргумент функции.
  * @param target_error целевая погрешность.
  * 
  * Для sin(t): перебирает нечетные n (3, 5, 7, ...).
  * Для exp(t): перебирает все n (1, 2, 3, ...).
  * Возвращает минимальное n, обеспечивающее требуемую точность.
 */
-int find_optimal_n_small(const std::string &function_type, double const t, double const target_error) {
+int find_optimal_n(const std::string &function_type, double const t, double const target_error) {
     double exact_value;
     if (function_type == "sin") {
         exact_value = sin(t);
@@ -114,38 +114,6 @@ int find_optimal_n_small(const std::string &function_type, double const t, doubl
 }
 
 /**
- * @brief Функция подбора оптимального числа слагаемых для больших аргументов.
- *
- * @param function_type тип функции: "sin" или "exp".
- * @param t аргумент функции (большое значение).
- * @param target_error целевая погрешность.
- * 
- * Использует прямое суммирование ряда без улучшающих преобразований.
- * Возвращает оптимальное n для достижения заданной точности.
-*/
-int find_optimal_n_big(const std::string &function_type, double const t, double const target_error) {
-    double exact_value;
-    if (function_type == "sin") {
-        exact_value = sin(t);
-    } else {
-        // exp
-        exact_value = exp(t);
-    }
-    int n = 1;
-    double error = 1.0;
-    int const max_iterations = (function_type == "sin") ? 50 : 40;
-    while (error > target_error && n < max_iterations) {
-        double const approx_value = maclaurin_sum(function_type, t, n);
-        error = std::abs(exact_value - approx_value);
-        if (error <= target_error) {
-            break;
-        }
-        n += (function_type == "sin") ? 2 : 1; // для sin только нечетные члены
-    }
-    return n;
-}
-
-/**
  * @brief Функция анализа точности рядов Маклорена и сохранения результатов.
  * 
  * Сравнивает три метода вычисления:
@@ -164,10 +132,10 @@ void analyze_and_save_results() {
     std::cout << "Погрешность аргумента: dt = 0.001\n";
     std::cout << "==================================================\n" << "\n";
 
-    const int n_sin_01 = find_optimal_n_small("sin", 0.5, 0.001); // середина [0,1]
-    const int n_exp_01 = find_optimal_n_small("exp", 0.5, 0.001); // середина [0,1]
-    const int n_sin_1011 = find_optimal_n_big("sin", 10.5, 0.001); // середина [10,11]
-    const int n_exp_1011 = find_optimal_n_big("exp", 10.5, 0.001); // середина [10,11]
+    const int n_sin_01 = find_optimal_n("sin", 0.5, 0.001); // середина [0,1]
+    const int n_exp_01 = find_optimal_n("exp", 0.5, 0.001); // середина [0,1]
+    const int n_sin_1011 = find_optimal_n("sin", 10.5, 0.001); // середина [10,11]
+    const int n_exp_1011 = find_optimal_n("exp", 10.5, 0.001); // середина [10,11]
 
     std::cout << "ОПТИМАЛЬНЫЕ ЗНАЧЕНИЯ:\n";
     std::cout << "sin(t) на [0,1]: n = " << n_sin_01 << "\n";
