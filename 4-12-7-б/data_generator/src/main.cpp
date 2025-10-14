@@ -23,19 +23,6 @@ double f(const double x) {
     return x * exp(-x * x);
 }
 
-// double newton_method(double t, double x0) {
-//     double x = x0;
-//     for (int i = 0; i < 1000; i++) {
-//         double f_val = x * exp(-x * x) - t;
-//         double df_val = exp(-x * x) * (1 - 2 * x * x);
-//         double x_new = x - f_val / df_val;
-//
-//         if (fabs(x_new - x) < EPS) return x_new;
-//         x = x_new;
-//     }
-//     return x;
-// }
-
 /**
  * @brief Функция метода простой итерации для левой ветви функции.
  *
