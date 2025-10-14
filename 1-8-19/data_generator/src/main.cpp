@@ -101,11 +101,10 @@ int find_optimal_n_small(const std::string &function_type, double const t, doubl
     int n = 1;
     double error = 1.0;
     int max_iterations = (function_type == "sin") ? 50 : 40;
-    int min_n = (function_type == "sin") ? 3 : 4;
-    while ((error > target_error || n < min_n) && n < max_iterations) {
+    while ((error > target_error) && n < max_iterations) {
         double approx_value = maclaurin_sum(function_type, t, n);
         error = std::abs(exact_value - approx_value);
-        if (error <= target_error && n >= min_n) {
+        if (error <= target_error) {
             break;
         }
         n += (function_type == "sin") ? 2 : 1;
