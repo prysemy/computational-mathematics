@@ -27,7 +27,6 @@ class Program
 
             CreatePositionPlot(dataPoints);
             CreateVelocityPlot(dataPoints);
-            CreatePhasePortrait(dataPoints);
         }
         catch (Exception ex)
         {
@@ -135,27 +134,6 @@ class Program
         Console.WriteLine($"Created: {filename}");
     }
 
-    static void CreatePhasePortrait(List<DataPoint> points)
-    {
-        var plt = new Plot();
-        plt.XLabel("Position (x)");
-        plt.YLabel("Velocity (dx/dt)");
-
-        var x = points.Select(p => p.x).ToArray();
-        var dx = points.Select(p => p.dx).ToArray();
-
-        var phaseLine = plt.Add.Scatter(x, dx);
-        phaseLine.Color = ScottPlot.Color.FromHex("#2ca02c");
-        phaseLine.LineWidth = 1;
-
-        // Highlight initial point
-        if (points.Count > 0)
-        {
-            var initPoint = plt.Add.Marker(points[0].x, points[0].dx,
-                                          ScottPlot.MarkerShape.FilledCircle, 15,
-                                          ScottPlot.Color.FromHex("#ff7f0e"));
-        }
-
         // Add ellipse showing theoretical limit cycle (for Rayleigh equation)
         // Rayleigh equation tends to limit cycle near x² + (dx/dt)² ≈ constant
         var limitCycle = plt.Add.Ellipse(0, 0, 2.0, 2.0);
@@ -167,3 +145,4 @@ class Program
     }
 
 }
+
