@@ -28,15 +28,6 @@ class Program
             CreatePositionPlot(dataPoints);
             CreateVelocityPlot(dataPoints);
             CreatePhasePortrait(dataPoints);
-            CreateEnergyPlot(dataPoints);
-            CreateInitialGrowthPlot(dataPoints);
-
-            Console.WriteLine("\nPlots saved:");
-            Console.WriteLine("1. rayleigh_position.png");
-            Console.WriteLine("2. rayleigh_velocity.png");
-            Console.WriteLine("3. rayleigh_phase.png");
-            Console.WriteLine("4. rayleigh_energy.png");
-            Console.WriteLine("5. rayleigh_initial.png");
         }
         catch (Exception ex)
         {
@@ -174,4 +165,5 @@ class Program
         plt.SavePng(filename, 800, 800);
         Console.WriteLine($"Created: {filename}");
     }
+
 }
