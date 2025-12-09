@@ -43,30 +43,29 @@ double df_ddy(double x, double y, double dy) {
  * где p = ∂y/∂α, q = ∂v/∂α
  */
 void runge_kutta_4_system(double x, double h, double &y, double &v, double &p, double &q) {
-    double k1_v = h * (-f(x, y, v));
-    double k2_v = h * (-f(x + h / 2, y + k1_y / 2, v + k1_v / 2));
-    double k3_v = h * (-f(x + h / 2, y + k2_y / 2, v + k2_v / 2));
-    double k4_v = h * (-f(x + h, y + k3_y, v + k3_v));
-
     double k1_y = h * v;
-    double k2_y = h * (v + k1_v/2);
-    double k3_y = h * (v + k2_v/2);
-    double k4_y = h * (v + k3_v);
-
-
+    double k1_v = h * (-f(x, y, v));
+    double k1_p = h * q;
     double k1_q = h * (-df_ddy(x, y, v) * q - df_dy(x, y, v) * p);
+    
+    double k2_y = h * (v + k1_v/2);
+    double k2_v = h * (-f(x + h / 2, y + k1_y / 2, v + k1_v / 2));
+    double k2_p = h * (q + k1_q/2);
     double k2_q = h * (-df_ddy(x + h / 2, y + k1_y / 2, v + k1_v / 2) * (q + k1_q / 2)
                        - df_dy(x + h / 2, y + k1_y / 2, v + k1_v / 2) * (p + k1_p / 2));
+
+    double k3_y = h * (v + k2_v/2);
+    double k3_v = h * (-f(x + h / 2, y + k2_y / 2, v + k2_v / 2));
+    double k3_p = h * (q + k2_q/2);
     double k3_q = h * (-df_ddy(x + h / 2, y + k2_y / 2, v + k2_v / 2) * (q + k2_q / 2)
                        - df_dy(x + h / 2, y + k2_y / 2, v + k2_v / 2) * (p + k2_p / 2));
+    
+    double k4_y = h * (v + k3_v);
+    double k4_v = h * (-f(x + h, y + k3_y, v + k3_v));
+    double k4_p = h * (q + k3_q);
     double k4_q = h * (-df_ddy(x + h, y + k3_y, v + k3_v) * (q + k3_q)
                        - df_dy(x + h, y + k3_y, v + k3_v) * (p + k3_p));
     
-    double k1_p = h * q;
-    double k2_p = h * (q + k1_q/2);
-    double k3_p = h * (q + k2_q/2);
-    double k4_p = h * (q + k3_q);
-
     y = y + (k1_y + 2 * k2_y + 2 * k3_y + k4_y) / 6.0;
     v = v + (k1_v + 2 * k2_v + 2 * k3_v + k4_v) / 6.0;
     p = p + (k1_p + 2 * k2_p + 2 * k3_p + k4_p) / 6.0;
