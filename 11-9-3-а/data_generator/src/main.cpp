@@ -124,6 +124,7 @@ std::pair<double, double> solve_shooting_iteration(double alpha, int n) {
  * 
  * @return Найденное значение α = y'(0), удовлетворяющее граничному условию y(1) = 2
  *         с точностью tol.
+ */
 double newton_method(double alpha0, int n, double tol = 1e-8, int max_iter = 50) {
     double alpha = alpha0;
 
