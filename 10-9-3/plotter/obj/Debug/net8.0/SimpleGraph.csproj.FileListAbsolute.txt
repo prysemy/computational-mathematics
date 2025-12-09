@@ -70,3 +70,12 @@
 /home/emily/CLionProjects/plotter/obj/Debug/net8.0/SimpleGr.1954F57D.Up2Date
 /home/emily/CLionProjects/plotter/obj/Debug/net8.0/SimpleGraph.genruntimeconfig.cache
 /home/emily/CLionProjects/plotter/obj/Debug/net8.0/ref/SimpleGraph.dll
+/home/emily/Repos/computational-mathematics/10-9-3/plotter/obj/Debug/net8.0/SimpleGraph.csproj.AssemblyReference.cache
+/home/emily/Repos/computational-mathematics/10-9-3/plotter/obj/Debug/net8.0/SimpleGraph.GeneratedMSBuildEditorConfig.editorconfig
+/home/emily/Repos/computational-mathematics/10-9-3/plotter/obj/Debug/net8.0/SimpleGraph.AssemblyInfoInputs.cache
+/home/emily/Repos/computational-mathematics/10-9-3/plotter/obj/Debug/net8.0/SimpleGraph.AssemblyInfo.cs
+/home/emily/Repos/computational-mathematics/10-9-3/plotter/obj/Debug/net8.0/SimpleGraph.csproj.CoreCompileInputs.cache
+/home/emily/Repos/computational-mathematics/10-9-3/plotter/obj/Debug/net8.0/SimpleGraph.sourcelink.json
+/home/emily/Repos/computational-mathematics/10-9-3/plotter/obj/Debug/net8.0/SimpleGraph.dll
+/home/emily/Repos/computational-mathematics/10-9-3/plotter/obj/Debug/net8.0/refint/SimpleGraph.dll
+/home/emily/Repos/computational-mathematics/10-9-3/plotter/obj/Debug/net8.0/SimpleGraph.pdb
