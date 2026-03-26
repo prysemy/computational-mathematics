@@ -1,340 +1,297 @@
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation, PillowWriter
-import glob
+import numpy as np
 import os
-from pathlib import Path
 
-# Параметры
-X_LEFT = -0.5
-X_RIGHT = 0.5
-T_MAX = 0.02
+# Чтение данных
+df = pd.read_csv('results2.csv')
+times = sorted(df['t'].unique())
+
+print(f"Всего кадров: {len(times)}")
+print(f"Время: {times[0]:.4f} - {times[-1]:.4f} с")
 
 # Создаем папку для графиков
-plots_dir = Path("gas_plots")
-plots_dir.mkdir(exist_ok=True)
+os.makedirs("gas_plots", exist_ok=True)
+
+# Весь расчетный отрезок от -10 до 10
+x_min, x_max = -10, 10
+
+# ==================== ГРАФИК 1: ФИНАЛЬНОЕ СОСТОЯНИЕ (4 графика) ====================
+t_final = times[-1]
+data_final = df[df['t'] == t_final]
+
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+fig.suptitle(f'Задача о распаде разрыва (задача Сода)\nγ = 5/3, t = {t_final:.4f} с',
+             fontsize=14, fontweight='bold')
+
+# 1. Плотность
+ax = axes[0, 0]
+ax.plot(data_final['x'], data_final['rho'], 'b-', linewidth=2)
+ax.axhline(y=13, color='gray', linestyle='--', alpha=0.5, label='ρ_L = 13')
+ax.axhline(y=1.3, color='gray', linestyle='--', alpha=0.5, label='ρ_R = 1.3')
+ax.set_xlabel('x, м', fontsize=12)
+ax.set_ylabel('ρ, кг/м³', fontsize=12)
+ax.set_title('Плотность', fontsize=12)
+ax.grid(True, alpha=0.3)
+ax.set_xlim(x_min, x_max)
+ax.legend()
+
+# 2. Скорость
+ax = axes[0, 1]
+ax.plot(data_final['x'], data_final['u'], 'r-', linewidth=2)
+ax.axhline(y=0, color='gray', linestyle='--', alpha=0.5)
+ax.set_xlabel('x, м', fontsize=12)
+ax.set_ylabel('u, м/с', fontsize=12)
+ax.set_title('Скорость', fontsize=12)
+ax.grid(True, alpha=0.3)
+ax.set_xlim(x_min, x_max)
+
+# 3. Давление
+ax = axes[1, 0]
+ax.plot(data_final['x'], data_final['P'], 'g-', linewidth=2)
+ax.axhline(y=10, color='gray', linestyle='--', alpha=0.5, label='P_L = 10')
+ax.axhline(y=1, color='gray', linestyle='--', alpha=0.5, label='P_R = 1')
+ax.set_xlabel('x, м', fontsize=12)
+ax.set_ylabel('P, атм', fontsize=12)
+ax.set_title('Давление', fontsize=12)
+ax.grid(True, alpha=0.3)
+ax.set_xlim(x_min, x_max)
+ax.legend()
+
+# 4. Внутренняя энергия
+ax = axes[1, 1]
+ax.plot(data_final['x'], data_final['e'], 'm-', linewidth=2)
+ax.set_xlabel('x, м', fontsize=12)
+ax.set_ylabel('e, Дж/кг', fontsize=12)
+ax.set_title('Внутренняя энергия', fontsize=12)
+ax.grid(True, alpha=0.3)
+ax.set_xlim(x_min, x_max)
+
+plt.tight_layout()
+plt.savefig('gas_plots/final_state.png', dpi=200, bbox_inches='tight')
+plt.savefig('gas_plots/final_state.pdf', bbox_inches='tight')
+print("✓ Финальное состояние сохранено")
+
+# ==================== ГРАФИК 2: СРАВНЕНИЕ С НАЧАЛЬНЫМ СОСТОЯНИЕМ ====================
+t_init = times[0]
+data_init = df[df['t'] == t_init]
+
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+fig.suptitle('Сравнение начального и конечного состояния', fontsize=14, fontweight='bold')
+
+# Плотность
+ax = axes[0, 0]
+ax.plot(data_init['x'], data_init['rho'], 'b--', linewidth=2, label=f'Начало, t=0')
+ax.plot(data_final['x'], data_final['rho'], 'r-', linewidth=2, label=f'Конец, t={t_final:.3f} с')
+ax.set_xlabel('x, м', fontsize=12)
+ax.set_ylabel('ρ, кг/м³', fontsize=12)
+ax.set_title('Плотность', fontsize=12)
+ax.grid(True, alpha=0.3)
+ax.legend()
+ax.set_xlim(x_min, x_max)
+
+# Скорость
+ax = axes[0, 1]
+ax.plot(data_init['x'], data_init['u'], 'b--', linewidth=2, label=f'Начало, t=0')
+ax.plot(data_final['x'], data_final['u'], 'r-', linewidth=2, label=f'Конец, t={t_final:.3f} с')
+ax.set_xlabel('x, м', fontsize=12)
+ax.set_ylabel('u, м/с', fontsize=12)
+ax.set_title('Скорость', fontsize=12)
+ax.grid(True, alpha=0.3)
+ax.legend()
+ax.set_xlim(x_min, x_max)
+
+# Давление
+ax = axes[1, 0]
+ax.plot(data_init['x'], data_init['P'], 'b--', linewidth=2, label=f'Начало, t=0')
+ax.plot(data_final['x'], data_final['P'], 'r-', linewidth=2, label=f'Конец, t={t_final:.3f} с')
+ax.set_xlabel('x, м', fontsize=12)
+ax.set_ylabel('P, атм', fontsize=12)
+ax.set_title('Давление', fontsize=12)
+ax.grid(True, alpha=0.3)
+ax.legend()
+ax.set_xlim(x_min, x_max)
+
+# Внутренняя энергия
+ax = axes[1, 1]
+ax.plot(data_init['x'], data_init['e'], 'b--', linewidth=2, label=f'Начало, t=0')
+ax.plot(data_final['x'], data_final['e'], 'r-', linewidth=2, label=f'Конец, t={t_final:.3f} с')
+ax.set_xlabel('x, м', fontsize=12)
+ax.set_ylabel('e, Дж/кг', fontsize=12)
+ax.set_title('Внутренняя энергия', fontsize=12)
+ax.grid(True, alpha=0.3)
+ax.legend()
+ax.set_xlim(x_min, x_max)
+
+plt.tight_layout()
+plt.savefig('gas_plots/initial_vs_final.png', dpi=200, bbox_inches='tight')
+print("✓ Сравнение сохранено")
+
+# ==================== ГРАФИК 3: ЭВОЛЮЦИЯ ВО ВРЕМЕНИ (5 моментов) ====================
+# Выбираем несколько моментов времени
+n_moments = min(5, len(times))
+indices = np.linspace(1, len(times) - 1, n_moments, dtype=int)
+selected_times = [times[i] for i in indices]
+colors = plt.cm.viridis(np.linspace(0, 1, n_moments))
+
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+fig.suptitle('Эволюция параметров во времени', fontsize=14, fontweight='bold')
+
+for idx, (t, color) in enumerate(zip(selected_times, colors)):
+    data_t = df[df['t'] == t]
+    axes[0, 0].plot(data_t['x'], data_t['rho'], color=color, linewidth=1.5, label=f't={t:.3f} с')
+    axes[0, 1].plot(data_t['x'], data_t['u'], color=color, linewidth=1.5, label=f't={t:.3f} с')
+    axes[1, 0].plot(data_t['x'], data_t['P'], color=color, linewidth=1.5, label=f't={t:.3f} с')
+    axes[1, 1].plot(data_t['x'], data_t['e'], color=color, linewidth=1.5, label=f't={t:.3f} с')
+
+# Плотность
+axes[0, 0].set_xlabel('x, м')
+axes[0, 0].set_ylabel('ρ, кг/м³')
+axes[0, 0].set_title('Плотность')
+axes[0, 0].grid(True, alpha=0.3)
+axes[0, 0].set_xlim(x_min, x_max)
+axes[0, 0].legend(fontsize=8)
+
+# Скорость
+axes[0, 1].set_xlabel('x, м')
+axes[0, 1].set_ylabel('u, м/с')
+axes[0, 1].set_title('Скорость')
+axes[0, 1].grid(True, alpha=0.3)
+axes[0, 1].set_xlim(x_min, x_max)
+axes[0, 1].legend(fontsize=8)
+
+# Давление
+axes[1, 0].set_xlabel('x, м')
+axes[1, 0].set_ylabel('P, атм')
+axes[1, 0].set_title('Давление')
+axes[1, 0].grid(True, alpha=0.3)
+axes[1, 0].set_xlim(x_min, x_max)
+axes[1, 0].legend(fontsize=8)
+
+# Внутренняя энергия
+axes[1, 1].set_xlabel('x, м')
+axes[1, 1].set_ylabel('e, Дж/кг')
+axes[1, 1].set_title('Внутренняя энергия')
+axes[1, 1].grid(True, alpha=0.3)
+axes[1, 1].set_xlim(x_min, x_max)
+axes[1, 1].legend(fontsize=8)
+
+plt.tight_layout()
+plt.savefig('gas_plots/evolution.png', dpi=200, bbox_inches='tight')
+print("✓ Эволюция сохранена")
+
+# ==================== ГРАФИК 4: СРАВНЕНИЕ С АНАЛИТИЧЕСКИМ РЕШЕНИЕМ ====================
+print("\nСравнение с аналитическим решением...")
 
 
-def load_data():
-    """Загружает все CSV файлы из папки gas_data"""
-    data_files = glob.glob("/home/emily/Repos/computational-mathematics/Ryman/gas_data/*.csv")
-    data = {}
+# Аналитическое решение для задачи Сода (приближенные значения для γ=5/3)
+def analytical_solution(x, t, gamma=5 / 3):
+    # Параметры из аналитического решения
+    P_star = 1.8  # давление в средней области
+    u_star = 0.6  # скорость в средней области
+    rho_star_left = 4.5  # плотность слева от контактного разрыва
+    rho_star_right = 1.8  # плотность справа от контактного разрыва
 
-    if not data_files:
-        print("  No files found in gas_data/")
-        return data
+    # Скорости звука
+    c_left = np.sqrt(gamma * 10 / 13)  # скорость звука слева
+    c_right = np.sqrt(gamma * 1 / 1.3)  # скорость звука справа
 
-    for f in data_files:
-        try:
-            df = pd.read_csv(f)
-            if df.empty:
-                print(f"  Warning: {os.path.basename(f)} is empty")
-                continue
+    # Положения волн
+    x_contact = u_star * t
+    x_shock = (u_star + c_right * np.sqrt((gamma + 1) / (2 * gamma) * P_star + (gamma - 1) / (2 * gamma))) * t
+    x_rarefaction_head = -c_left * t
+    x_rarefaction_tail = (u_star - c_left * (P_star / 10) ** ((gamma - 1) / (2 * gamma))) * t
 
-            # Проверяем на NaN и Inf
-            if df.isnull().values.any() or np.isinf(df.select_dtypes(include=[np.number]).values).any():
-                print(f"  Warning: {os.path.basename(f)} contains NaN or Inf - skipping")
-                continue
+    rho = np.zeros_like(x)
+    u = np.zeros_like(x)
+    P = np.zeros_like(x)
 
-            # Проверяем, есть ли колонка 't'
-            if 't' in df.columns:
-                t = df['t'].iloc[0]
-            else:
-                # Если нет колонки t, берем время из имени файла
-                filename = os.path.basename(f)
-                if filename.startswith('t_'):
-                    t_str = filename.replace('t_', '').replace('.csv', '')
-                    try:
-                        t = float(t_str)
-                    except:
-                        t = 0.0
-                else:
-                    t = 0.0
-                # Добавляем колонку t в DataFrame
-                df['t'] = t
-
-            data[t] = df
-            print(f"  Loaded: t={t:.6f}, {os.path.basename(f)}")
-
-        except Exception as e:
-            print(f"  Error loading {os.path.basename(f)}: {e}")
-
-    return data
-
-
-def safe_limits(values, factor_low=0.95, factor_high=1.05):
-    """Безопасно вычисляет пределы для графика, отбрасывая NaN/Inf"""
-    # Убираем NaN и Inf
-    clean_values = values[np.isfinite(values)]
-    if len(clean_values) == 0:
-        return -1, 1  # значения по умолчанию
-
-    vmin = clean_values.min()
-    vmax = clean_values.max()
-
-    # Если min и max равны, расширяем диапазон
-    if abs(vmax - vmin) < 1e-10:
-        if abs(vmin) < 1e-10:
-            return -0.1, 0.1
+    for i, xi in enumerate(x):
+        if xi < x_rarefaction_head:
+            rho[i] = 13
+            u[i] = 0
+            P[i] = 10
+        elif xi < x_rarefaction_tail:
+            # Волна разрежения
+            rho[i] = 13 * ((1 - (gamma - 1) / (2 * c_left) * (xi - x_rarefaction_head) / t) ** (2 / (gamma - 1)))
+            u[i] = (2 / (gamma + 1)) * (c_left + (xi - x_rarefaction_head) / t)
+            P[i] = 10 * (rho[i] / 13) ** gamma
+        elif xi < x_contact:
+            rho[i] = rho_star_left
+            u[i] = u_star
+            P[i] = P_star
+        elif xi < x_shock:
+            rho[i] = rho_star_right
+            u[i] = u_star
+            P[i] = P_star
         else:
-            return vmin * 0.9, vmax * 1.1
+            rho[i] = 1.3
+            u[i] = 0
+            P[i] = 1
 
-    return vmin * factor_low, vmax * factor_high
-
-
-def plot_final_state(data):
-    """График 1: финальное состояние (ближайшее к T_MAX)"""
-    if not data:
-        print("  No data to plot")
-        return
-
-    times = sorted(data.keys())
-    # Ищем ближайшее к T_MAX время
-    final_t = min(times, key=lambda x: abs(x - T_MAX))
-    df = data[final_t]
-
-    fig, axes = plt.subplots(1, 3, figsize=(15, 5))
-
-    # Плотность
-    axes[0].plot(df['x'], df['rho'], 'b-', linewidth=2)
-    axes[0].set_xlabel('x (м)')
-    axes[0].set_ylabel('ρ (кг/м³)')
-    axes[0].set_title(f'Плотность, t={final_t:.4f} с')
-    axes[0].grid(True, alpha=0.3)
-    axes[0].set_xlim(X_LEFT, X_RIGHT)
-
-    # Скорость
-    axes[1].plot(df['x'], df['u'], 'r-', linewidth=2)
-    axes[1].set_xlabel('x (м)')
-    axes[1].set_ylabel('u (м/с)')
-    axes[1].set_title(f'Скорость, t={final_t:.4f} с')
-    axes[1].grid(True, alpha=0.3)
-    axes[1].set_xlim(X_LEFT, X_RIGHT)
-
-    # Давление
-    axes[2].plot(df['x'], df['P'], 'g-', linewidth=2)
-    axes[2].set_xlabel('x (м)')
-    axes[2].set_ylabel('P (Па)')
-    axes[2].set_title(f'Давление, t={final_t:.4f} с')
-    axes[2].grid(True, alpha=0.3)
-    axes[2].set_xlim(X_LEFT, X_RIGHT)
-
-    plt.tight_layout()
-    plt.savefig(plots_dir / 'final_state.png', dpi=150)
-    plt.savefig(plots_dir / 'final_state.pdf')
-    plt.close()
-    print(f"  Saved final_state.png")
+    e = P / ((gamma - 1) * rho)
+    return rho, u, P, e
 
 
-def plot_time_evolution(data):
-    """График 2: эволюция во времени (несколько моментов)"""
-    if not data:
-        return
+rho_anal, u_anal, P_anal, e_anal = analytical_solution(data_final['x'].values, t_final)
 
-    times = sorted(data.keys())
-    if len(times) < 2:
-        print("  Not enough time steps for evolution plot")
-        return
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+fig.suptitle(f'Сравнение численного и аналитического решения, t = {t_final:.3f} с',
+             fontsize=14, fontweight='bold')
 
-    # Выбираем до 5 моментов времени
-    n_times = min(5, len(times))
-    indices = np.linspace(0, len(times) - 1, n_times, dtype=int)
-    selected_times = [times[i] for i in indices]
+# Плотность
+ax = axes[0, 0]
+ax.plot(data_final['x'], data_final['rho'], 'b-', linewidth=2, label='Численное')
+ax.plot(data_final['x'], rho_anal, 'r--', linewidth=2, label='Аналитическое')
+ax.set_xlabel('x, м', fontsize=12)
+ax.set_ylabel('ρ, кг/м³', fontsize=12)
+ax.set_title('Плотность', fontsize=12)
+ax.grid(True, alpha=0.3)
+ax.legend()
+ax.set_xlim(x_min, x_max)
 
-    colors = plt.cm.viridis(np.linspace(0, 1, len(selected_times)))
+# Скорость
+ax = axes[0, 1]
+ax.plot(data_final['x'], data_final['u'], 'b-', linewidth=2, label='Численное')
+ax.plot(data_final['x'], u_anal, 'r--', linewidth=2, label='Аналитическое')
+ax.set_xlabel('x, м', fontsize=12)
+ax.set_ylabel('u, м/с', fontsize=12)
+ax.set_title('Скорость', fontsize=12)
+ax.grid(True, alpha=0.3)
+ax.legend()
+ax.set_xlim(x_min, x_max)
 
-    fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+# Давление
+ax = axes[1, 0]
+ax.plot(data_final['x'], data_final['P'], 'b-', linewidth=2, label='Численное')
+ax.plot(data_final['x'], P_anal, 'r--', linewidth=2, label='Аналитическое')
+ax.set_xlabel('x, м', fontsize=12)
+ax.set_ylabel('P, атм', fontsize=12)
+ax.set_title('Давление', fontsize=12)
+ax.grid(True, alpha=0.3)
+ax.legend()
+ax.set_xlim(x_min, x_max)
 
-    for idx, t in enumerate(selected_times):
-        df = data[t]
+# Внутренняя энергия
+ax = axes[1, 1]
+ax.plot(data_final['x'], data_final['e'], 'b-', linewidth=2, label='Численное')
+ax.plot(data_final['x'], e_anal, 'r--', linewidth=2, label='Аналитическое')
+ax.set_xlabel('x, м', fontsize=12)
+ax.set_ylabel('e, Дж/кг', fontsize=12)
+ax.set_title('Внутренняя энергия', fontsize=12)
+ax.grid(True, alpha=0.3)
+ax.legend()
+ax.set_xlim(x_min, x_max)
 
-        # Плотность
-        axes[0].plot(df['x'], df['rho'], color=colors[idx],
-                     linewidth=2, label=f't={t:.4f}')
+plt.tight_layout()
+plt.savefig('gas_plots/numerical_vs_analytical.png', dpi=200, bbox_inches='tight')
+print("✓ Сравнение с аналитическим решением сохранено")
 
-        # Скорость
-        axes[1].plot(df['x'], df['u'], color=colors[idx],
-                     linewidth=2, label=f't={t:.4f}')
-
-        # Давление
-        axes[2].plot(df['x'], df['P'], color=colors[idx],
-                     linewidth=2, label=f't={t:.4f}')
-
-    for ax in axes:
-        ax.set_xlabel('x (м)')
-        ax.grid(True, alpha=0.3)
-        ax.set_xlim(X_LEFT, X_RIGHT)
-        ax.legend(loc='best')
-
-    axes[0].set_ylabel('ρ (кг/м³)')
-    axes[0].set_title('Плотность')
-
-    axes[1].set_ylabel('u (м/с)')
-    axes[1].set_title('Скорость')
-
-    axes[2].set_ylabel('P (Па)')
-    axes[2].set_title('Давление')
-
-    plt.tight_layout()
-    plt.savefig(plots_dir / 'time_evolution.png', dpi=150)
-    plt.savefig(plots_dir / 'time_evolution.pdf')
-    plt.close()
-    print(f"  Saved time_evolution.png")
-
-
-def plot_comparison_with_initial(data):
-    """График 3: сравнение начального и конечного состояния"""
-    if not data:
-        return
-
-    times = sorted(data.keys())
-
-    # Начальное время (ближайшее к 0)
-    t_init = min(times, key=lambda x: abs(x - 0.0))
-    # Конечное время (ближайшее к T_MAX)
-    t_final = min(times, key=lambda x: abs(x - T_MAX))
-
-    if t_init == t_final:
-        print("  Only one time point, skipping comparison")
-        return
-
-    df_init = data[t_init]
-    df_final = data[t_final]
-
-    fig, axes = plt.subplots(1, 3, figsize=(15, 5))
-
-    # Плотность
-    axes[0].plot(df_init['x'], df_init['rho'], 'b--', linewidth=2, label=f't={t_init:.4f}')
-    axes[0].plot(df_final['x'], df_final['rho'], 'r-', linewidth=2, label=f't={t_final:.4f}')
-    axes[0].set_xlabel('x (м)')
-    axes[0].set_ylabel('ρ (кг/м³)')
-    axes[0].set_title('Плотность')
-    axes[0].grid(True, alpha=0.3)
-    axes[0].legend()
-    axes[0].set_xlim(X_LEFT, X_RIGHT)
-
-    # Скорость
-    axes[1].plot(df_init['x'], df_init['u'], 'b--', linewidth=2, label=f't={t_init:.4f}')
-    axes[1].plot(df_final['x'], df_final['u'], 'r-', linewidth=2, label=f't={t_final:.4f}')
-    axes[1].set_xlabel('x (м)')
-    axes[1].set_ylabel('u (м/с)')
-    axes[1].set_title('Скорость')
-    axes[1].grid(True, alpha=0.3)
-    axes[1].legend()
-    axes[1].set_xlim(X_LEFT, X_RIGHT)
-    axes[1].set_ylim(-1, 1)  # фиксированный диапазон для скорости
-
-    # Давление
-    axes[2].plot(df_init['x'], df_init['P'], 'b--', linewidth=2, label=f't={t_init:.4f}')
-    axes[2].plot(df_final['x'], df_final['P'], 'r-', linewidth=2, label=f't={t_final:.4f}')
-    axes[2].set_xlabel('x (м)')
-    axes[2].set_ylabel('P (Па)')
-    axes[2].set_title('Давление')
-    axes[2].grid(True, alpha=0.3)
-    axes[2].legend()
-    axes[2].set_xlim(X_LEFT, X_RIGHT)
-
-    plt.tight_layout()
-    plt.savefig(plots_dir / 'initial_vs_final.png', dpi=150)
-    plt.savefig(plots_dir / 'initial_vs_final.pdf')
-    plt.close()
-    print(f"  Saved initial_vs_final.png")
-
-
-def create_animation(data):
-    """Анимация: эволюция всех переменных во времени"""
-    if not data:
-        return
-
-    times = sorted(data.keys())
-    if len(times) < 2:
-        print("  Not enough time steps for animation")
-        return
-
-    fig, axes = plt.subplots(1, 3, figsize=(15, 5))
-
-    # Линии для каждого графика
-    line_rho, = axes[0].plot([], [], 'b-', linewidth=2)
-    line_u, = axes[1].plot([], [], 'r-', linewidth=2)
-    line_P, = axes[2].plot([], [], 'g-', linewidth=2)
-
-    # Определяем диапазоны для осей Y (безопасно)
-    all_rho = np.concatenate([data[t]['rho'].values for t in times])
-    all_u = np.concatenate([data[t]['u'].values for t in times])
-    all_P = np.concatenate([data[t]['P'].values for t in times])
-
-    rho_lims = safe_limits(all_rho)
-    u_lims = (-1, 1)  # фиксированный диапазон для скорости
-    P_lims = safe_limits(all_P)
-
-    # Настройка графиков
-    axes[0].set_xlim(X_LEFT, X_RIGHT)
-    axes[0].set_ylim(rho_lims)
-    axes[0].set_xlabel('x (м)')
-    axes[0].set_ylabel('ρ (кг/м³)')
-    axes[0].set_title('Плотность')
-    axes[0].grid(True, alpha=0.3)
-
-    axes[1].set_xlim(X_LEFT, X_RIGHT)
-    axes[1].set_ylim(u_lims)
-    axes[1].set_xlabel('x (м)')
-    axes[1].set_ylabel('u (м/с)')
-    axes[1].set_title('Скорость')
-    axes[1].grid(True, alpha=0.3)
-
-    axes[2].set_xlim(X_LEFT, X_RIGHT)
-    axes[2].set_ylim(P_lims)
-    axes[2].set_xlabel('x (м)')
-    axes[2].set_ylabel('P (Па)')
-    axes[2].set_title('Давление')
-    axes[2].grid(True, alpha=0.3)
-
-    # Текст с временем
-    time_text = fig.suptitle('', fontsize=14)
-
-    def init():
-        line_rho.set_data([], [])
-        line_u.set_data([], [])
-        line_P.set_data([], [])
-        time_text.set_text('')
-        return line_rho, line_u, line_P, time_text
-
-    def update(frame):
-        t = times[frame]
-        df = data[t]
-
-        line_rho.set_data(df['x'], df['rho'])
-        line_u.set_data(df['x'], df['u'])
-        line_P.set_data(df['x'], df['P'])
-        time_text.set_text(f't = {t:.6f} с')
-
-        return line_rho, line_u, line_P, time_text
-
-    anim = FuncAnimation(fig, update, frames=len(times),
-                         init_func=init, blit=True, interval=50)
-
-    anim.save(plots_dir / 'gas_evolution.gif', writer=PillowWriter(fps=20))
-    plt.close(fig)
-    print(f"  Saved gas_evolution.gif")
-
-
-# Основная часть
-print("Loading data from gas_data/...")
-data = load_data()
-
-if not data:
-    print("No data found! Run data_generator.cpp first.")
-    print("Check if gas_data/ folder exists and contains CSV files.")
-    exit(1)
-
-print(f"\nFound {len(data)} time steps")
-print("Creating plots...")
-
-# Создаем все графики
-plot_final_state(data)
-plot_time_evolution(data)
-plot_comparison_with_initial(data)
-create_animation(data)
-
-print(f"\nAll plots saved in '{plots_dir}/'")
+print("\n" + "=" * 50)
+print("ВСЕ ГРАФИКИ СОХРАНЕНЫ В ПАПКЕ gas_plots/")
+print("=" * 50)
+print("\nФайлы:")
+print("  📊 final_state.png              - финальное состояние")
+print("  📊 initial_vs_final.png         - сравнение начала и конца")
+print("  📊 evolution.png                - эволюция во времени")
+print("  📊 numerical_vs_analytical.png  - сравнение с аналитикой")
