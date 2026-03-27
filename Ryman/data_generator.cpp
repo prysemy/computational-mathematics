@@ -8,7 +8,7 @@ using namespace std;
 int main() {
     double gamma = 5.0 / 3.0;
     double L = 10.0;
-    double T = 4.0;
+    double T = 0.01;
     int Nx = 500;  
     double h = 2 * L / Nx;
 
@@ -22,11 +22,11 @@ int main() {
         x[i] = -L + i * h;
         if (x[i] < 0) {
             rho[i] = 13.0;
-            P[i] = 10.0;
+            P[i] = 10.0*100000;
             u[i] = 0;
         } else {
             rho[i] = 1.3;
-            P[i] = 1.0;
+            P[i] = 1.0*100000;
             u[i] = 0;
         }
         e[i] = P[i] / ((gamma - 1.0) * rho[i]);
@@ -51,7 +51,7 @@ int main() {
     while (t < T) {
         double lambda_max = 0.0;
         for (int i = 0; i <= Nx; i++) {
-            double c = sqrt(gamma * (gamma - 1.0) * e[i]);
+            double c = sqrt(gamma * P[i] / rho[i]);
             double lambda1 = fabs(u[i] + c);
             double lambda2 = fabs(u[i]);
             double lambda3 = fabs(u[i] - c);
@@ -61,7 +61,7 @@ int main() {
             }
         }
 
-        double tau = 0.1 * h / lambda_max;  // CFL = 0.1
+        double tau = 0.001 * h / lambda_max;  // CFL = 0.1
         if (t + tau > T) {
             tau = T - t;
         }
@@ -73,7 +73,7 @@ int main() {
         }
 
         for (int l = 1; l < Nx; l++) {
-            double c_l = sqrt(gamma * (gamma - 1.0) * e[l]);
+            double c_l = sqrt(gamma * P[l] / rho[l]);
 
             double A[3][3] = {
                 {0.0, 1.0, 0.0},

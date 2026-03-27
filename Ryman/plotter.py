@@ -3,20 +3,16 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
-# Чтение данных
 df = pd.read_csv('results2.csv')
 times = sorted(df['t'].unique())
 
 print(f"Всего кадров: {len(times)}")
 print(f"Время: {times[0]:.4f} - {times[-1]:.4f} с")
 
-# Создаем папку для графиков
 os.makedirs("gas_plots", exist_ok=True)
 
-# Весь расчетный отрезок от -10 до 10
 x_min, x_max = -10, 10
 
-# ==================== ГРАФИК 1: ФИНАЛЬНОЕ СОСТОЯНИЕ (4 графика) ====================
 t_final = times[-1]
 data_final = df[df['t'] == t_final]
 
@@ -72,7 +68,7 @@ plt.savefig('gas_plots/final_state.png', dpi=200, bbox_inches='tight')
 plt.savefig('gas_plots/final_state.pdf', bbox_inches='tight')
 print("✓ Финальное состояние сохранено")
 
-# ==================== ГРАФИК 2: СРАВНЕНИЕ С НАЧАЛЬНЫМ СОСТОЯНИЕМ ====================
+
 t_init = times[0]
 data_init = df[df['t'] == t_init]
 
@@ -127,7 +123,7 @@ plt.tight_layout()
 plt.savefig('gas_plots/initial_vs_final.png', dpi=200, bbox_inches='tight')
 print("✓ Сравнение сохранено")
 
-# ==================== ГРАФИК 3: ЭВОЛЮЦИЯ ВО ВРЕМЕНИ (5 моментов) ====================
+
 # Выбираем несколько моментов времени
 n_moments = min(5, len(times))
 indices = np.linspace(1, len(times) - 1, n_moments, dtype=int)
@@ -180,7 +176,6 @@ plt.tight_layout()
 plt.savefig('gas_plots/evolution.png', dpi=200, bbox_inches='tight')
 print("✓ Эволюция сохранена")
 
-# ==================== ГРАФИК 4: СРАВНЕНИЕ С АНАЛИТИЧЕСКИМ РЕШЕНИЕМ ====================
 print("\nСравнение с аналитическим решением...")
 
 
