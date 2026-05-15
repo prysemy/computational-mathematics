@@ -141,9 +141,6 @@ int main() {
     std::ofstream error_file("output_2d/convergence_data.txt");
     error_file << "# Nx hy L2_error\n";
 
-    // ========================================================================
-    // ЦИКЛ ПО РАЗМЕРНОСТЯМ СЕТКИ
-    // ========================================================================
     for (size_t k = 0; k < NX_values.size(); ++k) {
         int Nx = NX_values[k];
         int Ny = Nx;  // квадратная область
